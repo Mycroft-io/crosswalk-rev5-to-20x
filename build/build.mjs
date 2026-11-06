@@ -6,7 +6,8 @@ const inline = o => JSON.stringify(o).replace(/</g, '\\u003c');
 const ref = JSON.parse(fs.readFileSync('data/reference.json', 'utf8'));
 delete ref.schemas; // validators are precompiled; the page does not need the raw schemas
 const samples = Object.fromEntries(fs.readdirSync('samples').sort().map(f => [f, JSON.parse(fs.readFileSync('samples/' + f, 'utf8'))]));
-const page = fs.readFileSync('src/page.html', 'utf8')
+const logo = 'data:image/png;base64,' + fs.readFileSync('assets/mycroft-lockup-mask.png').toString('base64');
+const page = fs.readFileSync('src/page.html', 'utf8').split('/*__LOGO__*/').join(logo)
   .replace('/*__REF__*/', () => inline(ref)).replace('/*__SAMPLES__*/', () => inline(samples))
   .replace('/*__APP__*/', () => js.replace(/<\/script/gi, '<\\/script'));
 fs.mkdirSync('dist', { recursive: true });

@@ -4,26 +4,26 @@
 /* Layout: a reviewer's worksheet. Identity and coverage stay on top; one ledger of controls below,
    each row opening into two columns: what the package says, what stays with the agency. */
 :root {
-  --bg: #f3f5f8; --surface: #ffffff; --sunk: #e9edf2; --ink: #13202f; --muted: #556273; --line: #d5dbe3;
-  --accent: #0b5cad; --accent-ink: #ffffff;
-  --direct: #0b5cad; --traced: #17754f; --attention: #a85400; --silent: #6a59a6; --none: #6b7684;
-  --direct-bg: #e3eefb; --traced-bg: #e0f3ea; --attention-bg: #fcefd9; --silent-bg: #ece8f7; --none-bg: #e9edf2;
+  --bg: #f2f5f3; --surface: #ffffff; --sunk: #e8edea; --ink: #0e2a2a; --muted: #4f615e; --line: #d3dbd8;
+  --accent: #0f422f; --accent-ink: #ffffff;
+  --direct: #0f422f; --traced: #17754f; --attention: #a85400; --silent: #6a59a6; --none: #6b7684;
+  --direct-bg: #dfeae4; --traced-bg: #e0f3ea; --attention-bg: #fcefd9; --silent-bg: #ece8f7; --none-bg: #e9edf2;
   --bad: #b3261e; --bad-bg: #fbe7e5;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
   --r: 6px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0e141b; --surface: #161e28; --sunk: #1d2733; --ink: #e5ebf3; --muted: #9aa7b8; --line: #2b3746;
-  --accent: #7fb0f5; --accent-ink: #0b1420;
-  --direct: #7fb0f5; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
-  --direct-bg: #14304f; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
+  --bg: #0c1614; --surface: #132019; --sunk: #1a2a23; --ink: #e6eaea; --muted: #97a8a2; --line: #27392f;
+  --accent: #7fd3a9; --accent-ink: #0b1a14;
+  --direct: #7fd3a9; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
+  --direct-bg: #143a2b; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
   --bad: #ff8f86; --bad-bg: #44191a; color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #0e141b; --surface: #161e28; --sunk: #1d2733; --ink: #e5ebf3; --muted: #9aa7b8; --line: #2b3746;
-  --accent: #7fb0f5; --accent-ink: #0b1420;
-  --direct: #7fb0f5; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
-  --direct-bg: #14304f; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
+  --bg: #0c1614; --surface: #132019; --sunk: #1a2a23; --ink: #e6eaea; --muted: #97a8a2; --line: #27392f;
+  --accent: #7fd3a9; --accent-ink: #0b1a14;
+  --direct: #7fd3a9; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
+  --direct-bg: #143a2b; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
   --bad: #ff8f86; --bad-bg: #44191a; color-scheme: dark }
 
 * { box-sizing: border-box; }
@@ -39,6 +39,10 @@ a { color: var(--accent); } a:focus-visible, button:focus-visible, summary:focus
 .top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; justify-content: space-between; }
 .brand h1 { font-size: 22px; font-weight: 650; letter-spacing: -.01em; }
 .brand h1 span { font-family: var(--mono); font-weight: 500; color: var(--accent); }
+.powered { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; text-decoration: none; margin-bottom: 8px; }
+.powered:hover { color: var(--ink); }
+.lockup { display: inline-block; width: 98px; aspect-ratio: 450 / 101; background: currentColor; color: var(--ink); -webkit-mask: url("/*__LOGO__*/") center / contain no-repeat; mask: url("/*__LOGO__*/") center / contain no-repeat; }
+.foot .lockup { width: 76px; vertical-align: middle; }
 .brand p { color: var(--muted); max-width: 62ch; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .btn { font: inherit; font-weight: 550; padding: 7px 14px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
@@ -134,6 +138,7 @@ body.dragging::after { content: "Drop package files to load them"; position: fix
 <div class="wrap">
   <header class="top">
     <div class="brand">
+      <a class="powered" href="https://mycroft.io" target="_blank" rel="noopener noreferrer">Powered by <span class="lockup" role="img" aria-label="Mycroft"></span></a>
       <h1>Crosswalk <span>20x</span></h1>
       <p>Reads a FedRAMP certification package and lays it against the Rev5 control baseline, so an agency reviewer can see what the provider covers and what is left to decide.</p>
     </div>
@@ -178,7 +183,7 @@ body.dragging::after { content: "Drop package files to load them"; position: fix
 
   <footer class="foot">
     <p>Built on FedRAMP's public-domain data: Consolidated Rules for 2026 version <span class="mono" id="rules-version"></span> (indicator and rule mappings, Rev5 baselines), the CR26 JSON schemas, NIST SP 800-53 Rev. 5 control titles, and FedRAMP's agency control guidance.</p>
-    <p>Not a FedRAMP tool and not endorsed by FedRAMP. The page makes no network requests.</p>
+    <p>Built and maintained by <a href="https://mycroft.io" target="_blank" rel="noopener noreferrer"><span class="lockup" role="img" aria-label="Mycroft"></span></a>, open source under Apache-2.0 on <a href="https://github.com/Mycroft-io/crosswalk-rev5-to-20x" target="_blank" rel="noopener noreferrer">GitHub</a>. Not a FedRAMP tool and not endorsed by FedRAMP. The page makes no network requests.</p>
   </footer>
 </div>
 

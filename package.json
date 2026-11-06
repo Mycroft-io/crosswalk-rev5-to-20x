@@ -16,5 +16,11 @@
   },
   "private": true,
   "type": "module",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/Mycroft-io/crosswalk-rev5-to-20x",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mycroft-io/crosswalk-rev5-to-20x.git"
+  },
+  "author": "Mycroft Technologies Inc. (https://mycroft.io)"
 }

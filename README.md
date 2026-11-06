@@ -4,7 +4,7 @@ A single web page that reads a FedRAMP certification package (the JSON files CR2
 
 It runs entirely in the browser. Package files are never uploaded, the page makes no network requests, and `dist/index.html` works when opened from disk.
 
-**Status: prototype (0.1).** Not a FedRAMP tool and not endorsed by FedRAMP.
+**Status: prototype (0.1).** Built and maintained by [Mycroft](https://mycroft.io). Not a FedRAMP tool and not endorsed by FedRAMP.
 
 ## What it does
 
