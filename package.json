@@ -1,0 +1,20 @@
+{
+  "name": "crosswalk-rev5-to-20x",
+  "version": "0.1.0",
+  "description": "Agency-side reader for FedRAMP 20x certification packages: lays a package against the Rev5 baseline and exports review files.",
+  "scripts": {
+    "data": "python3 -I build/make_data.py vendor/rules/fedramp-consolidated-rules.json vendor/JSONViewer/public/nist-800-53-rev5-control-titles.json vendor/JSONViewer/public/AgencyControlGuidance.controls.merged.json vendor/schemas data/reference.json",
+    "validators": "node build/gen-validators.mjs",
+    "build": "node build/gen-validators.mjs && node build/build.mjs",
+    "test": "esbuild test/run.mjs --bundle --platform=node --format=esm --outfile=.tmp/test.mjs --log-level=error --banner:js=\"import {createRequire as __cr} from 'module';const require=__cr(import.meta.url);\" && node .tmp/test.mjs vendor/oscal"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "esbuild": "^0.28.2",
+    "fflate": "^0.8.3"
+  },
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0"
+}

@@ -1,0 +1,187 @@
+<title>Crosswalk 20x</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: a reviewer's worksheet. Identity and coverage stay on top; one ledger of controls below,
+   each row opening into two columns: what the package says, what stays with the agency. */
+:root {
+  --bg: #f3f5f8; --surface: #ffffff; --sunk: #e9edf2; --ink: #13202f; --muted: #556273; --line: #d5dbe3;
+  --accent: #0b5cad; --accent-ink: #ffffff;
+  --direct: #0b5cad; --traced: #17754f; --attention: #a85400; --silent: #6a59a6; --none: #6b7684;
+  --direct-bg: #e3eefb; --traced-bg: #e0f3ea; --attention-bg: #fcefd9; --silent-bg: #ece8f7; --none-bg: #e9edf2;
+  --bad: #b3261e; --bad-bg: #fbe7e5;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e141b; --surface: #161e28; --sunk: #1d2733; --ink: #e5ebf3; --muted: #9aa7b8; --line: #2b3746;
+  --accent: #7fb0f5; --accent-ink: #0b1420;
+  --direct: #7fb0f5; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
+  --direct-bg: #14304f; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
+  --bad: #ff8f86; --bad-bg: #44191a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0e141b; --surface: #161e28; --sunk: #1d2733; --ink: #e5ebf3; --muted: #9aa7b8; --line: #2b3746;
+  --accent: #7fb0f5; --accent-ink: #0b1420;
+  --direct: #7fb0f5; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
+  --direct-bg: #14304f; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
+  --bad: #ff8f86; --bad-bg: #44191a; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--sans); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 20px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 18px; }
+h1, h2, h3, h4, p, ul, dl, dd { margin: 0; } ul { padding: 0; list-style: none; }
+h1, h2, h3 { text-wrap: balance; }
+a { color: var(--accent); } a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mono { font-family: var(--mono); font-size: .92em; } .dim { color: var(--muted); } .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.sep { color: var(--line); padding: 0 2px; }
+
+.top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; justify-content: space-between; }
+.brand h1 { font-size: 22px; font-weight: 650; letter-spacing: -.01em; }
+.brand h1 span { font-family: var(--mono); font-weight: 500; color: var(--accent); }
+.brand p { color: var(--muted); max-width: 62ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { font: inherit; font-weight: 550; padding: 7px 14px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--accent); } .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.ident { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 24px; padding: 16px 18px; align-items: start; }
+.ident-name { font-size: 18px; font-weight: 600; } .ident-meta { color: var(--muted); overflow-wrap: anywhere; }
+.class-pick { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+select, input[type=search] { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 10px; max-width: 100%; }
+.files { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+.file { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; padding: 3px 9px; border-radius: 99px; border: 1px solid var(--line); }
+.file.ok { color: var(--traced); border-color: currentColor; } .file.bad { color: var(--bad); border-color: currentColor; background: var(--bad-bg); } .file.absent { color: var(--muted); border-style: dashed; }
+.file-mark { font-family: var(--mono); font-weight: 700; }
+.note { grid-column: 1 / -1; font-size: 13.5px; padding: 9px 12px; border-radius: var(--r); background: var(--sunk); color: var(--ink); }
+.note.warnbox { background: var(--attention-bg); } .note p + p { margin-top: 4px; }
+
+.cov { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+.headline { font-size: 17px; max-width: 78ch; } .headline strong { font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 14px; border-radius: 3px; overflow: hidden; gap: 2px; background: var(--surface); }
+.seg { min-width: 3px; } .seg.s-direct { background: var(--direct); } .seg.s-traced { background: var(--traced); } .seg.s-attention { background: var(--attention); } .seg.s-silent { background: var(--silent); }
+.seg.s-none { background: repeating-linear-gradient(135deg, var(--none) 0 3px, transparent 3px 6px); outline: 1px solid var(--none); outline-offset: -1px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip, .pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px; font: inherit; font-size: 13px; white-space: nowrap; }
+.chip { padding: 4px 11px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.chip:hover { border-color: currentColor; } .chip.on { background: var(--ink); color: var(--surface); border-color: var(--ink); } .chip.on .glyph { color: inherit; }
+.chip-n { font-weight: 650; font-variant-numeric: tabular-nums; }
+.pill { padding: 2px 9px; font-weight: 550; }
+.glyph { font-family: var(--mono); font-size: 11px; line-height: 1; }
+.s-direct .glyph, .pill.s-direct { color: var(--direct); } .s-traced .glyph, .pill.s-traced { color: var(--traced); } .s-attention .glyph, .pill.s-attention { color: var(--attention); }
+.s-silent .glyph, .pill.s-silent { color: var(--silent); } .s-none .glyph, .pill.s-none { color: var(--none); }
+.pill.s-direct { background: var(--direct-bg); } .pill.s-traced { background: var(--traced-bg); } .pill.s-attention { background: var(--attention-bg); } .pill.s-silent { background: var(--silent-bg); } .pill.s-none { background: var(--none-bg); }
+.caveat { font-size: 13.5px; color: var(--muted); max-width: 92ch; }
+
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.tab { font: inherit; font-weight: 550; padding: 9px 14px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.tab:hover { color: var(--ink); } .tab.on { color: var(--ink); border-bottom-color: var(--accent); }
+.tab-n { font-size: 12px; font-variant-numeric: tabular-nums; margin-left: 5px; padding: 1px 6px; border-radius: 99px; background: var(--sunk); } .tab-n:empty { display: none; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; } .field { display: flex; min-width: 0; } .field.grow { flex: 1 1 260px; } .field input { width: 100%; }
+.count, .lede { color: var(--muted); font-size: 13.5px; margin: 10px 0 4px; max-width: 92ch; } .lede { font-size: 15px; color: var(--ink); margin: 0 0 12px; }
+.fam { margin-top: 16px; }
+.fam h3 { display: flex; align-items: baseline; gap: 10px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 0 2px 6px; }
+.fam-code { color: var(--ink); font-size: 14px; letter-spacing: 0; } .fam-n { margin-left: auto; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.ctl { background: var(--surface); border: 1px solid var(--line); border-bottom-width: 0; }
+.ctl:first-of-type { border-radius: var(--r) var(--r) 0 0; } .ctl:last-of-type { border-bottom-width: 1px; border-radius: 0 0 var(--r) var(--r); } .ctl:only-of-type { border-radius: var(--r); }
+.ctl > summary { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto auto; gap: 4px 14px; align-items: center; padding: 9px 14px; cursor: pointer; list-style: none; }
+.ctl > summary::-webkit-details-marker { display: none; } .ctl > summary:hover { background: var(--sunk); } .ctl[open] > summary { border-bottom: 1px solid var(--line); background: var(--sunk); }
+.id { font-weight: 600; white-space: nowrap; } .ctl-title { min-width: 0; overflow-wrap: anywhere; } .ctl-map { font-size: 12.5px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ctl-body { padding: 16px 14px 18px; }
+.cols { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; } .cols > section { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.cols h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; } .src { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
+.entry { border-left: 3px solid var(--line); padding: 2px 0 2px 12px; display: flex; flex-direction: column; gap: 6px; min-width: 0; } .entry-missing { opacity: .8; border-left-style: dashed; }
+.entry-h { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; } .entry-name { font-weight: 550; }
+.rule-text { font-size: 13px; color: var(--muted); font-style: italic; }
+.kv { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 2px 12px; font-size: 14px; } .kv-k { color: var(--muted); font-size: 12.5px; padding-top: 2px; }
+.kv-v { min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; } .kv-v p + p { margin-top: 6px; } .kv-v ul { list-style: disc; padding-left: 18px; white-space: normal; }
+.evtext { font: 12px/1.4 var(--mono); background: var(--sunk); padding: 6px 8px; border-radius: 4px; overflow-x: auto; margin: 4px 0 0; white-space: pre; }
+.tag { display: inline-block; font-size: 12px; font-weight: 550; padding: 1px 7px; border-radius: 4px; background: var(--sunk); color: var(--muted); white-space: nowrap; }
+.t-ok { background: var(--traced-bg); color: var(--traced); } .t-warn { background: var(--attention-bg); color: var(--attention); } .t-bad { background: var(--bad-bg); color: var(--bad); } .t-acc { background: var(--silent-bg); color: var(--silent); }
+.t-missing { background: none; border: 1px dashed var(--line); }
+.part { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; font-size: 14px; } .part-id { color: var(--muted); } .part p + p { margin-top: 4px; font-size: 13px; } .act { font-weight: 550; }
+.empty { color: var(--muted); font-size: 14px; } .pad { padding: 28px 4px; }
+
+.scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.reg { border-collapse: collapse; width: 100%; font-size: 13.5px; } .reg th, .reg td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+.reg th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; background: var(--sunk); } .reg tr:last-child td { border-bottom: 0; }
+.reg .wide { min-width: 300px; } .reg td p + p { margin-top: 5px; }
+
+.stack { display: flex; flex-direction: column; gap: 14px; } .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.card h3 { font-size: 16px; font-weight: 600; } .prose { max-width: 75ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+.facts { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 8px 16px; } .facts dt { color: var(--muted); font-size: 13.5px; } .facts dd { min-width: 0; overflow-wrap: anywhere; } .facts ul { list-style: disc; padding-left: 18px; } .facts ul.plain { list-style: none; padding: 0; } .facts li + li { margin-top: 5px; }
+.checks { display: flex; flex-direction: column; gap: 10px; } .checks > li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; } .checks .ok .file-mark { color: var(--traced); } .checks .bad .file-mark { color: var(--bad); } .checks .absent { color: var(--muted); }
+.errs { list-style: disc; padding-left: 18px; margin-top: 4px; font-size: 13px; overflow-wrap: anywhere; }
+.comp { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; align-items: baseline; } .comp-n { font-variant-numeric: tabular-nums; white-space: nowrap; } .comp-n strong { font-size: 20px; }
+.comp details { margin-top: 4px; font-size: 13.5px; } .comp summary { cursor: pointer; color: var(--accent); } .cols3 { columns: 3 240px; margin-top: 6px; } .cols3 li { break-inside: avoid; margin-bottom: 3px; }
+.warn { color: var(--attention); font-size: 13.5px; }
+.exports { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.exports li { display: flex; gap: 16px; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); } .exports li:last-child { border-bottom: 0; } .exports li > div { min-width: 0; } .exports p { font-size: 13.5px; max-width: 80ch; }
+.status { min-height: 1.5em; margin-top: 10px; font-size: 14px; color: var(--traced); } .status.bad { color: var(--bad); }
+.foot { color: var(--muted); font-size: 13px; max-width: 95ch; display: flex; flex-direction: column; gap: 4px; }
+body.dragging::after { content: "Drop package files to load them"; position: fixed; inset: 12px; display: grid; place-items: center; font-size: 20px; font-weight: 600; color: var(--accent); background: color-mix(in srgb, var(--bg) 88%, transparent); border: 2px dashed var(--accent); border-radius: 10px; z-index: 20; pointer-events: none; }
+
+@media (max-width: 760px) {
+  .ident { grid-template-columns: minmax(0, 1fr); }
+  .ctl > summary { grid-template-columns: auto minmax(0, 1fr); } .ctl-title { grid-column: 1 / -1; grid-row: 2; } .ctl-map { display: none; } .ctl > summary .pill { justify-self: end; }
+  .cols { grid-template-columns: minmax(0, 1fr); } .kv, .facts, .comp { grid-template-columns: minmax(0, 1fr); } .exports li { flex-direction: column; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: no-preference) { .btn, .chip, .tab { transition: border-color .12s, background-color .12s, color .12s; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1>Crosswalk <span>20x</span></h1>
+      <p>Reads a FedRAMP certification package and lays it against the Rev5 control baseline, so an agency reviewer can see what the provider covers and what is left to decide.</p>
+    </div>
+    <div class="actions">
+      <input id="file" type="file" accept=".json,application/json" multiple hidden>
+      <button id="open" type="button" class="btn primary">Open package files</button>
+      <button id="sample" type="button" class="btn">Load FedRAMP sample</button>
+    </div>
+  </header>
+
+  <section class="panel ident" aria-label="Package">
+    <div id="ident"></div>
+    <label class="class-pick" for="cls">Compare against
+      <select id="cls">
+        <option value="b">Class B baseline (155 controls)</option>
+        <option value="c">Class C baseline (322 controls)</option>
+        <option value="d">Class D baseline (409 controls)</option>
+      </select>
+    </label>
+    <ul class="files" id="files" aria-label="Package files"></ul>
+    <p class="note" id="sample-note">You are looking at FedRAMP's fictional sample package (Meridian Federal Systems), which reports only 15 of 46 indicators. Open your own files, or drop them anywhere on this page, to replace it. Files are read in this browser tab and are not uploaded.</p>
+    <div class="note warnbox" id="notes" hidden></div>
+    <p class="note warnbox" id="mixed" hidden>These files point to different Certification Package Overviews, so they may describe different services. Check that they belong together.</p>
+  </section>
+
+  <section class="panel cov" aria-label="Coverage">
+    <p class="headline" id="headline"></p>
+    <div class="bar" id="bar" role="img" aria-label="Share of baseline controls in each coverage state"></div>
+    <div class="legend" id="legend"></div>
+    <p class="caveat">A link between an indicator and a control is one FedRAMP publishes as "related". It shows a reviewer where to look. It does not show the control is satisfied, and this view is not a System Security Plan.</p>
+  </section>
+
+  <div>
+    <nav class="tabs" role="tablist" aria-label="Views">
+      <button type="button" class="tab" role="tab" data-tab="controls">Controls</button>
+      <button type="button" class="tab" role="tab" data-tab="vulnerabilities">Vulnerabilities<span class="tab-n" id="tab-n-vulnerabilities"></span></button>
+      <button type="button" class="tab" role="tab" data-tab="package">Package</button>
+      <button type="button" class="tab" role="tab" data-tab="export">Export</button>
+    </nav>
+    <main id="view" style="padding-top:14px"></main>
+  </div>
+
+  <footer class="foot">
+    <p>Built on FedRAMP's public-domain data: Consolidated Rules for 2026 version <span class="mono" id="rules-version"></span> (indicator and rule mappings, Rev5 baselines), the CR26 JSON schemas, NIST SP 800-53 Rev. 5 control titles, and FedRAMP's agency control guidance.</p>
+    <p>Not a FedRAMP tool and not endorsed by FedRAMP. The page makes no network requests.</p>
+  </footer>
+</div>
+
+<script type="application/json" id="ref-data">/*__REF__*/</script>
+<script type="application/json" id="sample-data">/*__SAMPLES__*/</script>
+<script>/*__APP__*/</script>
