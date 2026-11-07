@@ -57,12 +57,18 @@ async function loadFiles(list) {
   }
   state.notes = notes;
   refresh();
+  if (!Object.keys(state.pkg).length && notes.length) { $('empty-notes').hidden = false; $('empty-notes').innerHTML = notes.map(n => `<p>${esc(n)}</p>`).join(''); }
+  else $('empty-notes').hidden = true;
 }
 
 // ---------- rendering ----------
 
 function refresh() {
   state.model = C.buildModel(ref, state.pkg, state.cls);
+  const has = Object.keys(state.pkg).length > 0;
+  $('empty').hidden = has;
+  $('loaded').hidden = !has;
+  if (!has) { $('notes').hidden = true; return; }
   renderHeader(); renderCoverage(); renderTab();
 }
 
@@ -150,7 +156,7 @@ function renderControls() {
   const groups = fams.map(f => [f, list.filter(c => c.family === f)]).filter(([, l]) => l.length);
   const rows = groups.map(([f, l]) => `<section class="fam"><h3><span class="mono fam-code">${f}</span>${esc(C.FAMILIES[f] || '')}<span class="fam-n">${l.length}</span></h3>
     ${l.map(c => `<details class="ctl" data-id="${esc(c.id)}"><summary><span class="mono id">${esc(c.id)}</span><span class="ctl-title">${esc(c.title)}</span>
-      <span class="ctl-map">${c.mapped ? `${c.reported} of ${c.mapped} mapped reported` : 'no mapping'}</span>${pill(c.state)}</summary><div class="ctl-body"></div></details>`).join('')}</section>`).join('');
+      <span class="ctl-map">${c.mapped ? `${c.reported} of ${c.mapped} mapped reported` : ''}</span>${pill(c.state)}</summary><div class="ctl-body"></div></details>`).join('')}</section>`).join('');
   $('view').innerHTML = `<div class="toolbar">
       <label class="field grow"><span class="sr">Search controls</span><input id="q" type="search" placeholder="Search by control, title or KSI, e.g. AC-02, logging, KSI-IAM" value="${esc(state.q)}" autocomplete="off"></label>
       <label class="field"><span class="sr">Control family</span><select id="family"><option value="">All families</option>${fams.map(f => `<option value="${f}"${state.family === f ? ' selected' : ''}>${f} ${esc(C.FAMILIES[f] || '')}</option>`).join('')}</select></label>
@@ -319,7 +325,7 @@ function setTab(t, fromHash) {
 // ---------- events ----------
 
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-tab],[data-state],[data-export],#open,#sample');
+  const t = e.target.closest('[data-tab],[data-state],[data-export],#open,#sample,[data-open],[data-sample]');
   if (!t) return;
   if (t.dataset.tab) setTab(t.dataset.tab);
   else if (t.dataset.state) {
@@ -328,8 +334,8 @@ document.addEventListener('click', e => {
     renderCoverage();
     if (state.tab !== 'controls') setTab('controls'); else renderControls();
   } else if (t.dataset.export) save(t.dataset.export, t);
-  else if (t.id === 'open') $('file').click();
-  else if (t.id === 'sample') loadSample();
+  else if (t.id === 'open' || t.hasAttribute('data-open')) $('file').click();
+  else if (t.id === 'sample' || t.hasAttribute('data-sample')) loadSample();
 });
 document.addEventListener('toggle', e => {
   const d = e.target;
@@ -360,8 +366,8 @@ addEventListener('dragenter', e => { e.preventDefault(); if (depth++ === 0) docu
 addEventListener('dragleave', () => { if (--depth <= 0) { depth = 0; document.body.classList.remove('dragging'); } });
 addEventListener('dragover', e => e.preventDefault());
 addEventListener('drop', e => { e.preventDefault(); depth = 0; document.body.classList.remove('dragging'); if (e.dataTransfer?.files?.length) loadFiles(e.dataTransfer.files); });
-addEventListener('hashchange', () => setTab(location.hash.slice(1), true));
+addEventListener('hashchange', () => { if (location.hash === '#sample') loadSample(); else setTab(location.hash.slice(1), true); });
 
 $('rules-version').textContent = ref.rulesVersion;
 state.tab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'controls';
-loadSample();
+if (location.hash === '#sample') loadSample(); else refresh();

@@ -5,3 +5,7 @@ This product bundles data published by FedRAMP (General Services Administration)
 under CC0 1.0: the Consolidated Rules for 2026, the CR26 JSON schemas, agency
 control guidance, NIST SP 800-53 Rev. 5 control titles, and sample package files.
 It is not a FedRAMP tool and is not endorsed by FedRAMP.
+
+Fonts: TASA Orbiter (Copyright 2021 The TASA Orbiter Project Authors) and Inter
+(Copyright 2016 The Inter Project Authors), both under the SIL Open Font License 1.1,
+embedded from the Fontsource packages. See assets/LICENSE-*.txt.

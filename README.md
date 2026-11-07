@@ -56,7 +56,7 @@ The site can also be deployed with Cloudflare Pages from this repository. Settin
 | Build output directory | `dist` |
 | Node version | from `.node-version` (22) |
 
-The build writes `dist/_headers`, which Cloudflare applies to every response. It carries a Content-Security-Policy that allows only the page's own inline script (pinned by SHA-256 hash, recomputed on each build), inline styles, and `data:` images for the embedded logo. Everything else, including any network request, is refused by the browser. Do not add analytics scripts: the page's promise that it makes no network requests is part of its value to agency reviewers, and the policy would block them anyway.
+The build writes `dist/_headers`, which Cloudflare applies to every response. It carries a Content-Security-Policy that allows only the page's own inline script (pinned by SHA-256 hash, recomputed on each build), inline styles, and `data:` images for the embedded logo, and `data:` fonts. Everything else, including any network request, is refused by the browser. Do not add analytics scripts: the page's promise that it makes no network requests is part of its value to agency reviewers, and the policy would block them anyway.
 
 ## Layout
 

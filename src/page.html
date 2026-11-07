@@ -1,191 +1,272 @@
 <title>Crosswalk 20x</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Layout: a reviewer's worksheet. Identity and coverage stay on top; one ledger of controls below,
-   each row opening into two columns: what the package says, what stays with the agency. */
+/* Layout follows mycroft.io: a deep-green masthead, pale green-grey page, white cards with 6px corners,
+   TASA Orbiter headings with tight tracking, Inter body. One ledger of controls, each opening two columns. */
+@font-face { font-family: "TASA Orbiter"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("/*__FONT_TASA__*/") format("woff2-variations"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/*__FONT_INTER__*/") format("woff2-variations"); }
 :root {
-  --bg: #f2f5f3; --surface: #ffffff; --sunk: #e8edea; --ink: #0e2a2a; --muted: #4f615e; --line: #d3dbd8;
-  --accent: #0f422f; --accent-ink: #ffffff;
-  --direct: #0f422f; --traced: #17754f; --attention: #a85400; --silent: #6a59a6; --none: #6b7684;
-  --direct-bg: #dfeae4; --traced-bg: #e0f3ea; --attention-bg: #fcefd9; --silent-bg: #ece8f7; --none-bg: #e9edf2;
+  --bg: #e3eaea; --surface: #ffffff; --sunk: #eef2f2; --ink: #0e2a2a; --body: #1d1c1a; --muted: #4a5a5a; --line: #cfdada;
+  --deep: #0e2a2a; --deep-2: #112d2d; --on-deep: #ffffff; --on-deep-muted: #b9caca; --mint: #88e2b5; --mint-soft: #c4f1da;
+  --accent: #0e2a2a; --accent-ink: #ffffff; --cta: #67437b; --cta-ink: #ffffff; --link: #3f3bb5;
+  --direct: #0e2a2a; --traced: #1f7a4d; --attention: #a35a00; --silent: #5a52b8; --none: #6c7b7b;
+  --direct-bg: #d9e7e1; --traced-bg: #daf3e6; --attention-bg: #fbeedb; --silent-bg: #e6e4f8; --none-bg: #e6ecec;
   --bad: #b3261e; --bad-bg: #fbe7e5;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  --shadow: 0 1px 3px rgba(14, 42, 42, .10), 0 8px 24px -16px rgba(14, 42, 42, .25);
+  --display: "TASA Orbiter", Arial, sans-serif;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
   --r: 6px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0c1614; --surface: #132019; --sunk: #1a2a23; --ink: #e6eaea; --muted: #97a8a2; --line: #27392f;
-  --accent: #7fd3a9; --accent-ink: #0b1a14;
-  --direct: #7fd3a9; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
-  --direct-bg: #143a2b; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
-  --bad: #ff8f86; --bad-bg: #44191a; color-scheme: dark } }
+  --bg: #0b1c1c; --surface: #112d2d; --sunk: #163737; --ink: #e3eaea; --body: #dfe7e7; --muted: #9fb3b3; --line: #244646;
+  --deep: #081616; --deep-2: #0e2a2a; --on-deep: #ffffff; --on-deep-muted: #9fb3b3;
+  --accent: #88e2b5; --accent-ink: #0b1c1c; --cta: #a98ac0; --cta-ink: #140b1a; --link: #aba7f1;
+  --direct: #88e2b5; --traced: #6fd3a3; --attention: #f0b160; --silent: #b7b2f3; --none: #94a7a7;
+  --direct-bg: #163d30; --traced-bg: #123b2a; --attention-bg: #45300f; --silent-bg: #2b2850; --none-bg: #1b3535;
+  --bad: #ff948c; --bad-bg: #4a1c1c; --shadow: none; color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #0c1614; --surface: #132019; --sunk: #1a2a23; --ink: #e6eaea; --muted: #97a8a2; --line: #27392f;
-  --accent: #7fd3a9; --accent-ink: #0b1a14;
-  --direct: #7fd3a9; --traced: #5fcf9f; --attention: #f0b05c; --silent: #b3a5ea; --none: #94a1b1;
-  --direct-bg: #143a2b; --traced-bg: #123a2b; --attention-bg: #43300f; --silent-bg: #2b2547; --none-bg: #1d2733;
-  --bad: #ff8f86; --bad-bg: #44191a; color-scheme: dark }
+  --bg: #0b1c1c; --surface: #112d2d; --sunk: #163737; --ink: #e3eaea; --body: #dfe7e7; --muted: #9fb3b3; --line: #244646;
+  --deep: #081616; --deep-2: #0e2a2a; --on-deep: #ffffff; --on-deep-muted: #9fb3b3;
+  --accent: #88e2b5; --accent-ink: #0b1c1c; --cta: #a98ac0; --cta-ink: #140b1a; --link: #aba7f1;
+  --direct: #88e2b5; --traced: #6fd3a3; --attention: #f0b160; --silent: #b7b2f3; --none: #94a7a7;
+  --direct-bg: #163d30; --traced-bg: #123b2a; --attention-bg: #45300f; --silent-bg: #2b2850; --none-bg: #1b3535;
+  --bad: #ff948c; --bad-bg: #4a1c1c; --shadow: none; color-scheme: dark }
 
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--sans); }
-.wrap { max-width: 1180px; margin: 0 auto; padding-block: 20px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 18px; }
-h1, h2, h3, h4, p, ul, dl, dd { margin: 0; } ul { padding: 0; list-style: none; }
-h1, h2, h3 { text-wrap: balance; }
-a { color: var(--accent); } a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+body { background: var(--bg); color: var(--body); font: 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--deep); }
+h1, h2, h3, h4, p, ul, dl, dd, figure { margin: 0; } ul { padding: 0; list-style: none; }
+h1, h2, h3, h4 { font-family: var(--display); color: var(--ink); font-weight: 600; letter-spacing: -.01em; text-wrap: balance; }
+a { color: var(--link); } a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 .mono { font-family: var(--mono); font-size: .92em; } .dim { color: var(--muted); } .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .sep { color: var(--line); padding: 0 2px; }
+.gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.inner { max-width: 1180px; margin: 0 auto; }
 
-.top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; justify-content: space-between; }
-.brand h1 { font-size: 22px; font-weight: 650; letter-spacing: -.01em; }
-.brand h1 span { font-family: var(--mono); font-weight: 500; color: var(--accent); }
-.powered { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; text-decoration: none; margin-bottom: 8px; }
-.powered:hover { color: var(--ink); }
-.lockup { display: inline-block; width: 98px; aspect-ratio: 450 / 101; background: currentColor; color: var(--ink); -webkit-mask: url("/*__LOGO__*/") center / contain no-repeat; mask: url("/*__LOGO__*/") center / contain no-repeat; }
-.foot .lockup { width: 76px; vertical-align: middle; }
-.brand p { color: var(--muted); max-width: 62ch; }
-.actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.btn { font: inherit; font-weight: 550; padding: 7px 14px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
-.btn:hover { border-color: var(--accent); } .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn:disabled { opacity: .5; cursor: not-allowed; }
+/* masthead */
+.mast { background: var(--deep); color: var(--on-deep); padding-block: 22px 30px; }
+.mast .inner { display: flex; flex-direction: column; gap: 26px; }
+.navrow { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.wordmark { display: inline-flex; align-items: baseline; gap: 10px; color: var(--on-deep); text-decoration: none; }
+.wordmark .lockup { width: 92px; color: var(--on-deep); }
+.wordmark .by { font-family: var(--display); font-size: 13px; letter-spacing: .02em; color: var(--on-deep-muted); }
+.navlinks { display: flex; gap: 18px; font-family: var(--display); font-size: 14px; font-weight: 500; }
+.navlinks a { color: var(--on-deep-muted); text-decoration: none; } .navlinks a:hover { color: var(--on-deep); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px 40px; align-items: end; }
+.hero h1 { font-size: clamp(32px, 4.6vw, 52px); line-height: 1.04; letter-spacing: -.02em; color: var(--on-deep); font-weight: 600; max-width: 18ch; }
+.hero h1 em { font-style: normal; color: var(--mint); }
+.hero p { color: var(--on-deep-muted); font-size: 16px; max-width: 58ch; margin-top: 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+.btn { font: 600 14px/1 var(--display); letter-spacing: .01em; padding: 13px 22px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--ink); } .btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.cta { background: var(--cta); border-color: var(--cta); color: var(--cta-ink); padding-inline: 28px; }
+.btn.ghost { background: transparent; border-color: rgba(255, 255, 255, .28); color: var(--on-deep); } .btn.ghost:hover { border-color: var(--on-deep); }
+.lockup { display: inline-block; aspect-ratio: 450 / 101; background: currentColor; -webkit-mask: url("/*__LOGO__*/") center / contain no-repeat; mask: url("/*__LOGO__*/") center / contain no-repeat; vertical-align: -0.1em; }
 
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
-.ident { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 24px; padding: 16px 18px; align-items: start; }
-.ident-name { font-size: 18px; font-weight: 600; } .ident-meta { color: var(--muted); overflow-wrap: anywhere; }
-.class-pick { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
-select, input[type=search] { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 7px 10px; max-width: 100%; }
+/* page body */
+.page { padding-block: 24px 64px; }
+.page .inner { display: flex; flex-direction: column; gap: 18px; }
+.card { background: var(--surface); border-radius: var(--r); box-shadow: var(--shadow); border: 1px solid var(--line); }
+select, input[type=search] { font: inherit; color: var(--body); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 9px 12px; max-width: 100%; }
+
+/* empty state */
+.empty-state { padding: 56px 24px 52px; display: grid; justify-items: center; text-align: center; gap: 14px; border: 1.5px dashed var(--line); background: var(--surface); border-radius: var(--r); }
+.empty-state .mark { width: 56px; height: 56px; border-radius: 14px; background: var(--mint-soft); color: var(--deep); display: grid; place-items: center; }
+.empty-state h2 { font-size: 26px; letter-spacing: -.015em; }
+.empty-state p { color: var(--muted); max-width: 54ch; }
+.empty-state .files-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 2px; }
+.empty-state .files-list li { font: 500 12px/1 var(--display); letter-spacing: .02em; padding: 7px 10px; border-radius: 99px; background: var(--sunk); color: var(--muted); }
+.empty-state .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 6px; }
+.empty-state .fine { font-size: 13px; }
+body.dragging .empty-state { border-color: var(--mint); background: var(--mint-soft); }
+
+/* identity and coverage */
+.ident { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 24px; padding: 18px 20px; align-items: start; }
+.ident-name { font-family: var(--display); font-size: 22px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); } .ident-meta { color: var(--muted); overflow-wrap: anywhere; margin-top: 2px; }
+.class-pick { display: flex; flex-direction: column; gap: 5px; font: 500 12px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.class-pick select { font: 14px/1.2 var(--sans); text-transform: none; letter-spacing: 0; }
 .files { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 8px; }
-.file { display: inline-flex; gap: 6px; align-items: center; font-size: 13px; padding: 3px 9px; border-radius: 99px; border: 1px solid var(--line); }
-.file.ok { color: var(--traced); border-color: currentColor; } .file.bad { color: var(--bad); border-color: currentColor; background: var(--bad-bg); } .file.absent { color: var(--muted); border-style: dashed; }
+.file { display: inline-flex; gap: 6px; align-items: center; font: 500 12px/1 var(--display); letter-spacing: .02em; padding: 6px 10px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+.file.ok { color: var(--traced); border-color: transparent; background: var(--traced-bg); } .file.bad { color: var(--bad); border-color: transparent; background: var(--bad-bg); } .file.absent { border-style: dashed; }
 .file-mark { font-family: var(--mono); font-weight: 700; }
-.note { grid-column: 1 / -1; font-size: 13.5px; padding: 9px 12px; border-radius: var(--r); background: var(--sunk); color: var(--ink); }
+.note { grid-column: 1 / -1; font-size: 13.5px; padding: 10px 14px; border-radius: var(--r); background: var(--sunk); color: var(--body); }
 .note.warnbox { background: var(--attention-bg); } .note p + p { margin-top: 4px; }
 
-.cov { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
-.headline { font-size: 17px; max-width: 78ch; } .headline strong { font-variant-numeric: tabular-nums; }
-.bar { display: flex; height: 14px; border-radius: 3px; overflow: hidden; gap: 2px; background: var(--surface); }
+.cov { padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font: 500 12px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.headline { font-family: var(--display); font-size: clamp(20px, 2.4vw, 26px); line-height: 1.25; letter-spacing: -.015em; color: var(--ink); max-width: 40ch; font-weight: 500; }
+.headline strong { font-weight: 700; font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 12px; border-radius: 3px; overflow: hidden; gap: 2px; }
 .seg { min-width: 3px; } .seg.s-direct { background: var(--direct); } .seg.s-traced { background: var(--traced); } .seg.s-attention { background: var(--attention); } .seg.s-silent { background: var(--silent); }
 .seg.s-none { background: repeating-linear-gradient(135deg, var(--none) 0 3px, transparent 3px 6px); outline: 1px solid var(--none); outline-offset: -1px; }
 .legend { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip, .pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px; font: inherit; font-size: 13px; white-space: nowrap; }
-.chip { padding: 4px 11px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
-.chip:hover { border-color: currentColor; } .chip.on { background: var(--ink); color: var(--surface); border-color: var(--ink); } .chip.on .glyph { color: inherit; }
-.chip-n { font-weight: 650; font-variant-numeric: tabular-nums; }
-.pill { padding: 2px 9px; font-weight: 550; }
+.chip, .pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 99px; font: 500 12.5px/1 var(--display); letter-spacing: .01em; white-space: nowrap; }
+.chip { padding: 8px 12px; border: 1px solid var(--line); background: var(--surface); color: var(--body); cursor: pointer; }
+.chip:hover { border-color: var(--ink); } .chip.on { background: var(--ink); color: var(--surface); border-color: var(--ink); } .chip.on .glyph { color: inherit; }
+.chip-n { font-weight: 700; font-variant-numeric: tabular-nums; }
+.pill { padding: 5px 10px; font-weight: 600; }
 .glyph { font-family: var(--mono); font-size: 11px; line-height: 1; }
 .s-direct .glyph, .pill.s-direct { color: var(--direct); } .s-traced .glyph, .pill.s-traced { color: var(--traced); } .s-attention .glyph, .pill.s-attention { color: var(--attention); }
 .s-silent .glyph, .pill.s-silent { color: var(--silent); } .s-none .glyph, .pill.s-none { color: var(--none); }
 .pill.s-direct { background: var(--direct-bg); } .pill.s-traced { background: var(--traced-bg); } .pill.s-attention { background: var(--attention-bg); } .pill.s-silent { background: var(--silent-bg); } .pill.s-none { background: var(--none-bg); }
-.caveat { font-size: 13.5px; color: var(--muted); max-width: 92ch; }
+.caveat { font-size: 13px; color: var(--muted); max-width: 92ch; }
 
-.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); overflow-x: auto; }
-.tab { font: inherit; font-weight: 550; padding: 9px 14px; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; white-space: nowrap; }
-.tab:hover { color: var(--ink); } .tab.on { color: var(--ink); border-bottom-color: var(--accent); }
-.tab-n { font-size: 12px; font-variant-numeric: tabular-nums; margin-left: 5px; padding: 1px 6px; border-radius: 99px; background: var(--sunk); } .tab-n:empty { display: none; }
+/* tabs and views */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.tab { font: 600 14px/1 var(--display); letter-spacing: .01em; padding: 12px 14px; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.tab:hover { color: var(--ink); } .tab.on { color: var(--ink); border-bottom-color: var(--ink); }
+.tab-n { font: 600 11px/1 var(--sans); font-variant-numeric: tabular-nums; margin-left: 6px; padding: 3px 7px; border-radius: 99px; background: var(--mint-soft); color: var(--deep); } .tab-n:empty { display: none; }
+#view { padding-top: 16px; }
 
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px; } .field { display: flex; min-width: 0; } .field.grow { flex: 1 1 260px; } .field input { width: 100%; }
-.count, .lede { color: var(--muted); font-size: 13.5px; margin: 10px 0 4px; max-width: 92ch; } .lede { font-size: 15px; color: var(--ink); margin: 0 0 12px; }
-.fam { margin-top: 16px; }
-.fam h3 { display: flex; align-items: baseline; gap: 10px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding: 0 2px 6px; }
-.fam-code { color: var(--ink); font-size: 14px; letter-spacing: 0; } .fam-n { margin-left: auto; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.count, .lede { color: var(--muted); font-size: 13.5px; margin: 10px 0 4px; max-width: 92ch; } .lede { font-size: 15px; color: var(--body); margin: 0 0 14px; }
+.fam { margin-top: 18px; }
+.fam h3 { display: flex; align-items: baseline; gap: 10px; font: 500 12px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 0 2px 8px; }
+.fam-code { color: var(--ink); font-size: 14px; font-weight: 700; letter-spacing: 0; } .fam-n { margin-left: auto; font-variant-numeric: tabular-nums; letter-spacing: 0; }
 .ctl { background: var(--surface); border: 1px solid var(--line); border-bottom-width: 0; }
 .ctl:first-of-type { border-radius: var(--r) var(--r) 0 0; } .ctl:last-of-type { border-bottom-width: 1px; border-radius: 0 0 var(--r) var(--r); } .ctl:only-of-type { border-radius: var(--r); }
-.ctl > summary { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto auto; gap: 4px 14px; align-items: center; padding: 9px 14px; cursor: pointer; list-style: none; }
+.ctl > summary { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto auto; gap: 4px 14px; align-items: center; padding: 11px 16px; cursor: pointer; list-style: none; }
 .ctl > summary::-webkit-details-marker { display: none; } .ctl > summary:hover { background: var(--sunk); } .ctl[open] > summary { border-bottom: 1px solid var(--line); background: var(--sunk); }
 .id { font-weight: 600; white-space: nowrap; } .ctl-title { min-width: 0; overflow-wrap: anywhere; } .ctl-map { font-size: 12.5px; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.ctl-body { padding: 16px 14px 18px; }
-.cols { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; } .cols > section { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
-.cols h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-weight: 600; } .src { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
-.entry { border-left: 3px solid var(--line); padding: 2px 0 2px 12px; display: flex; flex-direction: column; gap: 6px; min-width: 0; } .entry-missing { opacity: .8; border-left-style: dashed; }
-.entry-h { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; } .entry-name { font-weight: 550; }
+.ctl-body { padding: 18px 16px 20px; }
+.cols { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 28px; } .cols > section { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.cols h4 { font: 500 12px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); } .src { font-size: 12.5px; color: var(--muted); margin-top: -8px; }
+.entry { border-left: 3px solid var(--line); padding: 2px 0 2px 14px; display: flex; flex-direction: column; gap: 6px; min-width: 0; } .entry-missing { opacity: .8; border-left-style: dashed; }
+.entry-h { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; } .entry-name { font-family: var(--display); font-weight: 600; color: var(--ink); }
 .rule-text { font-size: 13px; color: var(--muted); font-style: italic; }
 .kv { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 2px 12px; font-size: 14px; } .kv-k { color: var(--muted); font-size: 12.5px; padding-top: 2px; }
 .kv-v { min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; } .kv-v p + p { margin-top: 6px; } .kv-v ul { list-style: disc; padding-left: 18px; white-space: normal; }
 .evtext { font: 12px/1.4 var(--mono); background: var(--sunk); padding: 6px 8px; border-radius: 4px; overflow-x: auto; margin: 4px 0 0; white-space: pre; }
-.tag { display: inline-block; font-size: 12px; font-weight: 550; padding: 1px 7px; border-radius: 4px; background: var(--sunk); color: var(--muted); white-space: nowrap; }
+.tag { display: inline-block; font: 600 11.5px/1 var(--display); letter-spacing: .02em; padding: 5px 8px; border-radius: 4px; background: var(--sunk); color: var(--muted); white-space: nowrap; }
 .t-ok { background: var(--traced-bg); color: var(--traced); } .t-warn { background: var(--attention-bg); color: var(--attention); } .t-bad { background: var(--bad-bg); color: var(--bad); } .t-acc { background: var(--silent-bg); color: var(--silent); }
 .t-missing { background: none; border: 1px dashed var(--line); }
-.part { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; font-size: 14px; } .part-id { color: var(--muted); } .part p + p { margin-top: 4px; font-size: 13px; } .act { font-weight: 550; }
+.part { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; font-size: 14px; } .part-id { color: var(--muted); } .part p + p { margin-top: 4px; font-size: 13px; } .act { font-weight: 600; color: var(--ink); }
 .empty { color: var(--muted); font-size: 14px; } .pad { padding: 28px 4px; }
 
-.scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
-.reg { border-collapse: collapse; width: 100%; font-size: 13.5px; } .reg th, .reg td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
-.reg th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; background: var(--sunk); } .reg tr:last-child td { border-bottom: 0; }
+.scroll { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+.reg { border-collapse: collapse; width: 100%; font-size: 13.5px; } .reg th, .reg td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+.reg th { font: 500 11.5px/1.3 var(--display); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; background: var(--sunk); } .reg tr:last-child td { border-bottom: 0; }
 .reg .wide { min-width: 300px; } .reg td p + p { margin-top: 5px; }
 
-.stack { display: flex; flex-direction: column; gap: 14px; } .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.card h3 { font-size: 16px; font-weight: 600; } .prose { max-width: 75ch; white-space: pre-wrap; overflow-wrap: anywhere; }
+.stack { display: flex; flex-direction: column; gap: 14px; } .stack .card { padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.stack h3 { font-size: 18px; } .prose { max-width: 75ch; white-space: pre-wrap; overflow-wrap: anywhere; }
 .facts { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 8px 16px; } .facts dt { color: var(--muted); font-size: 13.5px; } .facts dd { min-width: 0; overflow-wrap: anywhere; } .facts ul { list-style: disc; padding-left: 18px; } .facts ul.plain { list-style: none; padding: 0; } .facts li + li { margin-top: 5px; }
 .checks { display: flex; flex-direction: column; gap: 10px; } .checks > li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; } .checks .ok .file-mark { color: var(--traced); } .checks .bad .file-mark { color: var(--bad); } .checks .absent { color: var(--muted); }
 .errs { list-style: disc; padding-left: 18px; margin-top: 4px; font-size: 13px; overflow-wrap: anywhere; }
-.comp { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; align-items: baseline; } .comp-n { font-variant-numeric: tabular-nums; white-space: nowrap; } .comp-n strong { font-size: 20px; }
-.comp details { margin-top: 4px; font-size: 13.5px; } .comp summary { cursor: pointer; color: var(--accent); } .cols3 { columns: 3 240px; margin-top: 6px; } .cols3 li { break-inside: avoid; margin-bottom: 3px; }
+.comp { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; align-items: baseline; } .comp-n { font-variant-numeric: tabular-nums; white-space: nowrap; } .comp-n strong { font-family: var(--display); font-size: 24px; color: var(--ink); }
+.comp details { margin-top: 4px; font-size: 13.5px; } .comp summary { cursor: pointer; color: var(--link); } .cols3 { columns: 3 240px; margin-top: 6px; } .cols3 li { break-inside: avoid; margin-bottom: 3px; }
 .warn { color: var(--attention); font-size: 13.5px; }
-.exports { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
-.exports li { display: flex; gap: 16px; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--line); } .exports li:last-child { border-bottom: 0; } .exports li > div { min-width: 0; } .exports p { font-size: 13.5px; max-width: 80ch; }
+.exports { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+.exports li { display: flex; gap: 16px; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); } .exports li:last-child { border-bottom: 0; } .exports li > div { min-width: 0; } .exports p { font-size: 13.5px; max-width: 80ch; }
+.exports strong { font-family: var(--display); color: var(--ink); }
 .status { min-height: 1.5em; margin-top: 10px; font-size: 14px; color: var(--traced); } .status.bad { color: var(--bad); }
-.foot { color: var(--muted); font-size: 13px; max-width: 95ch; display: flex; flex-direction: column; gap: 4px; }
-body.dragging::after { content: "Drop package files to load them"; position: fixed; inset: 12px; display: grid; place-items: center; font-size: 20px; font-weight: 600; color: var(--accent); background: color-mix(in srgb, var(--bg) 88%, transparent); border: 2px dashed var(--accent); border-radius: 10px; z-index: 20; pointer-events: none; }
+
+/* footer */
+.foot { background: var(--deep); color: var(--on-deep-muted); font-size: 13px; padding-block: 28px 34px; }
+.foot .inner { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 36px; align-items: start; }
+.foot .lockup { width: 96px; color: var(--on-deep); } .foot p { max-width: 90ch; } .foot p + p { margin-top: 6px; }
+.foot a { color: var(--on-deep); }
+body.dragging::after { content: "Drop package files to load them"; position: fixed; inset: 12px; display: grid; place-items: center; font: 600 22px/1.2 var(--display); color: var(--deep); background: rgba(196, 241, 218, .92); border: 2px dashed var(--deep); border-radius: 10px; z-index: 20; pointer-events: none; }
 
 @media (max-width: 760px) {
+  .hero { grid-template-columns: minmax(0, 1fr); } .actions { justify-content: flex-start; }
   .ident { grid-template-columns: minmax(0, 1fr); }
   .ctl > summary { grid-template-columns: auto minmax(0, 1fr); } .ctl-title { grid-column: 1 / -1; grid-row: 2; } .ctl-map { display: none; } .ctl > summary .pill { justify-self: end; }
   .cols { grid-template-columns: minmax(0, 1fr); } .kv, .facts, .comp { grid-template-columns: minmax(0, 1fr); } .exports li { flex-direction: column; align-items: flex-start; }
+  .foot .inner { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: no-preference) { .btn, .chip, .tab { transition: border-color .12s, background-color .12s, color .12s; } }
 </style>
 
-<div class="wrap">
-  <header class="top">
-    <div class="brand">
-      <a class="powered" href="https://mycroft.io" target="_blank" rel="noopener noreferrer">Powered by <span class="lockup" role="img" aria-label="Mycroft"></span></a>
-      <h1>Crosswalk <span>20x</span></h1>
-      <p>Reads a FedRAMP certification package and lays it against the Rev5 control baseline, so an agency reviewer can see what the provider covers and what is left to decide.</p>
+<header class="mast gutter">
+  <div class="inner">
+    <div class="navrow">
+      <a class="wordmark" href="https://mycroft.io" target="_blank" rel="noopener noreferrer"><span class="lockup" role="img" aria-label="Mycroft"></span><span class="by">open source</span></a>
+      <nav class="navlinks" aria-label="Links">
+        <a href="https://github.com/Mycroft-io/crosswalk-rev5-to-20x" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.fedramp.gov/2026/" target="_blank" rel="noopener noreferrer">FedRAMP 2026 rules</a>
+        <a href="https://mycroft.io" target="_blank" rel="noopener noreferrer">mycroft.io</a>
+      </nav>
     </div>
-    <div class="actions">
-      <input id="file" type="file" accept=".json,application/json" multiple hidden>
-      <button id="open" type="button" class="btn primary">Open package files</button>
-      <button id="sample" type="button" class="btn">Load FedRAMP sample</button>
+    <div class="hero">
+      <div>
+        <h1>Read a FedRAMP 20x package <em>control by control</em></h1>
+        <p>Crosswalk 20x lays a certification package against the Rev5 baseline, so an agency reviewer can see what the provider covers and what is left to decide. Files stay in your browser.</p>
+      </div>
+      <div class="actions">
+        <input id="file" type="file" accept=".json,application/json" multiple hidden>
+        <button id="open" type="button" class="btn cta">Upload package files</button>
+        <button id="sample" type="button" class="btn ghost">View FedRAMP sample</button>
+      </div>
     </div>
-  </header>
-
-  <section class="panel ident" aria-label="Package">
-    <div id="ident"></div>
-    <label class="class-pick" for="cls">Compare against
-      <select id="cls">
-        <option value="b">Class B baseline (155 controls)</option>
-        <option value="c">Class C baseline (322 controls)</option>
-        <option value="d">Class D baseline (409 controls)</option>
-      </select>
-    </label>
-    <ul class="files" id="files" aria-label="Package files"></ul>
-    <p class="note" id="sample-note">You are looking at FedRAMP's fictional sample package (Meridian Federal Systems), which reports only 15 of 46 indicators. Open your own files, or drop them anywhere on this page, to replace it. Files are read in this browser tab and are not uploaded.</p>
-    <div class="note warnbox" id="notes" hidden></div>
-    <p class="note warnbox" id="mixed" hidden>These files point to different Certification Package Overviews, so they may describe different services. Check that they belong together.</p>
-  </section>
-
-  <section class="panel cov" aria-label="Coverage">
-    <p class="headline" id="headline"></p>
-    <div class="bar" id="bar" role="img" aria-label="Share of baseline controls in each coverage state"></div>
-    <div class="legend" id="legend"></div>
-    <p class="caveat">A link between an indicator and a control is one FedRAMP publishes as "related". It shows a reviewer where to look. It does not show the control is satisfied, and this view is not a System Security Plan.</p>
-  </section>
-
-  <div>
-    <nav class="tabs" role="tablist" aria-label="Views">
-      <button type="button" class="tab" role="tab" data-tab="controls">Controls</button>
-      <button type="button" class="tab" role="tab" data-tab="vulnerabilities">Vulnerabilities<span class="tab-n" id="tab-n-vulnerabilities"></span></button>
-      <button type="button" class="tab" role="tab" data-tab="package">Package</button>
-      <button type="button" class="tab" role="tab" data-tab="export">Export</button>
-    </nav>
-    <main id="view" style="padding-top:14px"></main>
   </div>
+</header>
 
-  <footer class="foot">
-    <p>Built on FedRAMP's public-domain data: Consolidated Rules for 2026 version <span class="mono" id="rules-version"></span> (indicator and rule mappings, Rev5 baselines), the CR26 JSON schemas, NIST SP 800-53 Rev. 5 control titles, and FedRAMP's agency control guidance.</p>
-    <p>Built and maintained by <a href="https://mycroft.io" target="_blank" rel="noopener noreferrer"><span class="lockup" role="img" aria-label="Mycroft"></span></a>, open source under Apache-2.0 on <a href="https://github.com/Mycroft-io/crosswalk-rev5-to-20x" target="_blank" rel="noopener noreferrer">GitHub</a>. Not a FedRAMP tool and not endorsed by FedRAMP. The page makes no network requests.</p>
-  </footer>
+<div class="page gutter">
+  <div class="inner">
+    <section class="empty-state" id="empty" aria-label="Upload a package">
+      <div class="mark" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0 4 4m-4-4-4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></div>
+      <h2>Upload a certification package</h2>
+      <p>Drop the JSON files from a FedRAMP 20x package here, or choose them. Any of the six file types works on its own; the more you add, the more complete the view.</p>
+      <ul class="files-list"><li>Certification Package Overview</li><li>Security Decision Record</li><li>Ongoing Certification Report</li><li>Vulnerability Detail Report</li><li>Accepted Vulnerability Info</li><li>Historical Vulnerability Activity</li></ul>
+      <div class="row">
+        <button type="button" class="btn cta" data-open>Choose files</button>
+        <button type="button" class="btn" data-sample>Or view FedRAMP's sample package</button>
+      </div>
+      <div class="note warnbox" id="empty-notes" hidden style="text-align:left;max-width:60ch"></div>
+      <p class="fine">Files are read in this browser tab, checked against FedRAMP's schemas, and never uploaded anywhere.</p>
+    </section>
+
+    <div id="loaded" hidden>
+      <div class="inner" style="display:flex;flex-direction:column;gap:18px">
+        <section class="card ident" aria-label="Package">
+          <div id="ident"></div>
+          <label class="class-pick" for="cls">Compare against
+            <select id="cls">
+              <option value="b">Class B baseline (155 controls)</option>
+              <option value="c">Class C baseline (322 controls)</option>
+              <option value="d">Class D baseline (409 controls)</option>
+            </select>
+          </label>
+          <ul class="files" id="files" aria-label="Package files"></ul>
+          <p class="note" id="sample-note">You are looking at FedRAMP's fictional sample package (Meridian Federal Systems), which reports only 15 of 46 indicators. Upload your own files, or drop them anywhere on this page, to replace it.</p>
+          <div class="note warnbox" id="notes" hidden></div>
+          <p class="note warnbox" id="mixed" hidden>These files point to different Certification Package Overviews, so they may describe different services. Check that they belong together.</p>
+        </section>
+
+        <section class="card cov" aria-label="Coverage">
+          <p class="eyebrow">Coverage of the Rev5 baseline</p>
+          <p class="headline" id="headline"></p>
+          <div class="bar" id="bar" role="img" aria-label="Share of baseline controls in each coverage state"></div>
+          <div class="legend" id="legend"></div>
+          <p class="caveat">A link between an indicator and a control is one FedRAMP publishes as "related". It shows a reviewer where to look. It does not show the control is satisfied, and this view is not a System Security Plan.</p>
+        </section>
+
+        <div>
+          <nav class="tabs" role="tablist" aria-label="Views">
+            <button type="button" class="tab" role="tab" data-tab="controls">Controls</button>
+            <button type="button" class="tab" role="tab" data-tab="vulnerabilities">Vulnerabilities<span class="tab-n" id="tab-n-vulnerabilities"></span></button>
+            <button type="button" class="tab" role="tab" data-tab="package">Package</button>
+            <button type="button" class="tab" role="tab" data-tab="export">Export</button>
+          </nav>
+          <main id="view"></main>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<footer class="foot gutter">
+  <div class="inner">
+    <a href="https://mycroft.io" target="_blank" rel="noopener noreferrer"><span class="lockup" role="img" aria-label="Mycroft"></span></a>
+    <div>
+      <p>Built and maintained by Mycroft and released as open source under Apache-2.0 on <a href="https://github.com/Mycroft-io/crosswalk-rev5-to-20x" target="_blank" rel="noopener noreferrer">GitHub</a>. Not a FedRAMP tool and not endorsed by FedRAMP. The page makes no network requests.</p>
+      <p>Built on FedRAMP's public-domain data: Consolidated Rules for 2026 version <span class="mono" id="rules-version"></span> (indicator and rule mappings, Rev5 baselines), the CR26 JSON schemas, NIST SP 800-53 Rev. 5 control titles, and FedRAMP's agency control guidance.</p>
+    </div>
+  </div>
+</footer>
 
 <script type="application/json" id="ref-data">/*__REF__*/</script>
 <script type="application/json" id="sample-data">/*__SAMPLES__*/</script>
