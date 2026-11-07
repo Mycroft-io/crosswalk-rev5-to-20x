@@ -32,6 +32,12 @@ function setDoc(kind, data, name) {
   state.pkg[kind] = data;
   state.files[kind] = { name, ...validate(kind, data) };
 }
+function clearAll() {
+  state.pkg = {}; state.files = {}; state.notes = []; state.sample = false; state.states.clear(); state.q = ''; state.family = '';
+  if (location.hash === '#sample') { try { history.replaceState(null, '', location.pathname); } catch { location.hash = ''; } }
+  refresh();
+  scrollTo({ top: 0 });
+}
 function loadSample() {
   state.pkg = {}; state.files = {}; state.notes = []; state.sample = true;
   for (const [name, data] of Object.entries(samples)) setDoc(C.detectType(data), data, name);
@@ -325,7 +331,7 @@ function setTab(t, fromHash) {
 // ---------- events ----------
 
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-tab],[data-state],[data-export],#open,#sample,[data-open],[data-sample]');
+  const t = e.target.closest('[data-tab],[data-state],[data-export],#open,#sample,[data-open],[data-sample],#clear');
   if (!t) return;
   if (t.dataset.tab) setTab(t.dataset.tab);
   else if (t.dataset.state) {
@@ -336,6 +342,7 @@ document.addEventListener('click', e => {
   } else if (t.dataset.export) save(t.dataset.export, t);
   else if (t.id === 'open' || t.hasAttribute('data-open')) $('file').click();
   else if (t.id === 'sample' || t.hasAttribute('data-sample')) loadSample();
+  else if (t.id === 'clear') clearAll();
 });
 document.addEventListener('toggle', e => {
   const d = e.target;
