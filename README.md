@@ -45,7 +45,9 @@ npm test         # needs NIST's oscal_ssp_schema.json and oscal_poam_schema.json
 
 ## Hosting
 
-The site is deployed with Cloudflare Pages from this repository. Settings in the Cloudflare dashboard:
+`.github/workflows/pages.yml` builds the site from source and publishes `dist/` to GitHub Pages on every push to `main` (repository Settings → Pages → Source: GitHub Actions). GitHub Pages cannot set response headers, so the Content-Security-Policy below applies only on Cloudflare Pages.
+
+The site can also be deployed with Cloudflare Pages from this repository. Settings in the Cloudflare dashboard:
 
 | Setting | Value |
 |---|---|
