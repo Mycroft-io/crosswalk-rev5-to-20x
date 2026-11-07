@@ -1,6 +1,6 @@
 {
   "name": "crosswalk-rev5-to-20x",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Agency-side reader for FedRAMP 20x certification packages: lays a package against the Rev5 baseline and exports review files.",
   "scripts": {
     "data": "python3 -I build/make_data.py vendor/rules/fedramp-consolidated-rules.json vendor/JSONViewer/public/nist-800-53-rev5-control-titles.json vendor/JSONViewer/public/AgencyControlGuidance.controls.merged.json vendor/schemas data/reference.json",

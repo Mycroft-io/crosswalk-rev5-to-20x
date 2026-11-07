@@ -402,7 +402,7 @@ export async function toOscalSsp(model, meta) {
     uuid: docId,
     metadata: {
       title: `Agency SSP skeleton: use of ${i.service || 'cloud service'} (${i.provider || 'provider'})`,
-      'last-modified': isoNow(meta), version: '0.1-draft', 'oscal-version': '1.1.2',
+      'last-modified': isoNow(meta), version: '1.0', 'oscal-version': '1.1.2',
       props: [{ name: 'marking', value: 'draft' }],
       roles: [{ id: 'provider', title: 'Cloud Service Provider' }],
       parties: [{ uuid: partyId, type: 'organization', name: i.provider || 'Cloud service provider' }],
@@ -472,7 +472,7 @@ export async function toOscalPoam(model, meta) {
   }
   const doc = { uuid: await u('doc'),
     metadata: { title: `Provider vulnerability register: ${i.service || 'cloud service'} (${i.provider || 'provider'})`,
-      'last-modified': isoNow(meta), version: '0.1-draft', 'oscal-version': '1.1.2',
+      'last-modified': isoNow(meta), version: '1.0', 'oscal-version': '1.1.2',
       remarks: `${NOTICE} Built from the provider's Vulnerability Evaluation and Reporting files. Ratings are FedRAMP Potential Agency Impact N-ratings (N0 to N5) as reported; they are not converted to Low/Moderate/High.` },
     'system-id': { id: i.packageId || TODO, 'identifier-type': 'https://fedramp.gov' },
     'poam-items': items };
