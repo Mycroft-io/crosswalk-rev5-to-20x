@@ -43,12 +43,26 @@ npm test         # needs NIST's oscal_ssp_schema.json and oscal_poam_schema.json
 
 `data/reference.json` in this repository was built from FedRAMP rules version 2026.11.02.01 (`FedRAMP/rules@64fa769`), `FedRAMP/schemas@8fe79fa` and `FedRAMP/JSONViewer@128f6cc`. The files in `samples/` are FedRAMP's fictional test fixtures from JSONViewer. All of these are public domain (CC0).
 
+## Hosting
+
+The site is deployed with Cloudflare Pages from this repository. Settings in the Cloudflare dashboard:
+
+| Setting | Value |
+|---|---|
+| Production branch | `main` |
+| Build command | `npm ci && npm run build` |
+| Build output directory | `dist` |
+| Node version | from `.node-version` (22) |
+
+The build writes `dist/_headers`, which Cloudflare applies to every response. It carries a Content-Security-Policy that allows only the page's own inline script (pinned by SHA-256 hash, recomputed on each build), inline styles, and `data:` images for the embedded logo. Everything else, including any network request, is refused by the browser. Do not add analytics scripts: the page's promise that it makes no network requests is part of its value to agency reviewers, and the policy would block them anyway.
+
 ## Layout
 
 - `src/core.js` — the crosswalk and the exporters. Pure functions, no DOM.
 - `src/validate.js`, `src/validators.gen.js` — FedRAMP's schemas precompiled to plain functions, so the page needs no `eval` and runs under a strict Content-Security-Policy.
 - `src/app.js`, `src/page.html` — the page.
 - `build/` — data, validator and page builds.
+- `site/_headers` — Cloudflare Pages response headers; the build fills in the CSP hash.
 - `test/run.mjs` — checks the crosswalk counts, validates both OSCAL exports against NIST's schemas, and opens the workbook.
 
 ## Known limits
