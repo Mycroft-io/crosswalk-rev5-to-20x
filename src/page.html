@@ -87,9 +87,7 @@ body.dragging .empty-state { border-color: var(--mint); background: var(--mint-s
 .ident-name { font-family: var(--display); font-size: 22px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); } .ident-meta { color: var(--muted); overflow-wrap: anywhere; margin-top: 2px; }
 .class-pick { display: flex; flex-direction: column; gap: 5px; font: 500 12px/1 var(--display); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
 .class-pick select { font: 14px/1.2 var(--sans); text-transform: none; letter-spacing: 0; }
-.files-row { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
-.files { display: flex; flex-wrap: wrap; gap: 6px 8px; }
-.btn.small { padding: 8px 12px; font-size: 12.5px; }
+.files { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 8px; }
 .file { display: inline-flex; gap: 6px; align-items: center; font: 500 12px/1 var(--display); letter-spacing: .02em; padding: 6px 10px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
 .file.ok { color: var(--traced); border-color: transparent; background: var(--traced-bg); } .file.bad { color: var(--bad); border-color: transparent; background: var(--bad-bg); } .file.absent { border-style: dashed; }
 .file-mark { font-family: var(--mono); font-weight: 700; }
@@ -201,6 +199,7 @@ body.dragging::after { content: "Drop package files to load them"; position: fix
         <input id="file" type="file" accept=".json,application/json" multiple hidden>
         <button id="open" type="button" class="btn cta">Upload package files</button>
         <button id="sample" type="button" class="btn ghost">View FedRAMP sample</button>
+        <button id="clear" type="button" class="btn ghost" hidden>Clear package</button>
       </div>
     </div>
   </div>
@@ -232,10 +231,7 @@ body.dragging::after { content: "Drop package files to load them"; position: fix
               <option value="d">Class D baseline (409 controls)</option>
             </select>
           </label>
-          <div class="files-row">
-            <ul class="files" id="files" aria-label="Package files"></ul>
-            <button id="clear" type="button" class="btn small">Clear package</button>
-          </div>
+          <ul class="files" id="files" aria-label="Package files"></ul>
           <p class="note" id="sample-note">You are looking at FedRAMP's fictional sample package (Meridian Federal Systems), which reports only 15 of 46 indicators. Upload your own files, or drop them anywhere on this page, to replace it.</p>
           <div class="note warnbox" id="notes" hidden></div>
           <p class="note warnbox" id="mixed" hidden>These files point to different Certification Package Overviews, so they may describe different services. Check that they belong together.</p>

@@ -74,6 +74,7 @@ function refresh() {
   const has = Object.keys(state.pkg).length > 0;
   $('empty').hidden = has;
   $('loaded').hidden = !has;
+  $('clear').hidden = !has;
   if (!has) { $('notes').hidden = true; return; }
   renderHeader(); renderCoverage(); renderTab();
 }
