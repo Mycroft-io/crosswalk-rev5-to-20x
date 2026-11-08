@@ -75,7 +75,7 @@ The build writes `dist/_headers`, which Cloudflare applies to every response. It
 - No native Word export; the readable report opens in Word.
 - Tested against FedRAMP's sample package only. It has not been run against a real certification package.
 
-## Licence
+## License
 
 Code: Apache-2.0, copyright 2026 Mycroft Technologies Inc. See `LICENSE` and `NOTICE`.
 
